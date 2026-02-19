@@ -1,44 +1,47 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+require 'src/Exception.php';
+require 'src/PHPMailer.php';
+require 'src/SMTP.php';
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Honeypot check
+    if (!empty($_POST['website'])) {
+        die("Spam detected.");
+    }
 
-  $book_a_table = new PHP_Email_Form;
-  $book_a_table->ajax = true;
-  
-  $book_a_table->to = $receiving_email_address;
-  $book_a_table->from_name = $_POST['name'];
-  $book_a_table->from_email = $_POST['email'];
-  $book_a_table->subject = "New tour booking request from the website";
+    $mail = new PHPMailer(true);
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $book_a_table->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'mail.johnstepssafaris.com'; 
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'bookings@johnstepssafaris.com';
+        $mail->Password   = 'bookings@2030';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-  $book_a_table->add_message( $_POST['name'], 'Name');
-  $book_a_table->add_message( $_POST['date'], 'Preferred Travel Date');
-  $book_a_table->add_message( $_POST['travelers'], 'Number of Travelers');
-  $book_a_table->add_message( $_POST['email'], 'Email');
-  $book_a_table->add_message( $_POST['phone'], 'Phone', 4);
-  $book_a_table->add_message( $_POST['message'], 'Message');
+        $mail->setFrom('bookings@johnstepssafaris.com', 'Johnsteps Bookings');
+        $mail->addAddress('bookings@johnstepssafaris.com'); 
 
-  echo $book_a_table->send();
+        $mail->isHTML(true);
+        $mail->Subject = "New Tour Booking: " . strtoupper($_POST['destination']);
+        
+        // Structure the booking details for the email body
+        $mail->Body    = "<h3>New Safari Booking Request</h3>" .
+                         "<b>Destination:</b> " . $_POST['destination'] . "<br>" .
+                         "<b>Tour Type:</b> " . $_POST['tour_type'] . "<br>" .
+                         "<b>Departure:</b> " . $_POST['checkin'] . "<br>" .
+                         "<b>Return:</b> " . $_POST['checkout'] . "<br>" .
+                         "<b>Adults:</b> " . $_POST['adults'] . "<br>" .
+                         "<b>Children:</b> " . $_POST['children'];
+
+        $mail->send();
+        echo "OK";
+    } catch (Exception $e) {
+        echo "Booking failed. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
 ?>

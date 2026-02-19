@@ -59,36 +59,7 @@
           <li><a href="eco-lodge.html">Eco-Lodge</a></li>
           <li><a href="gallery.html">Gallery</a></li>
           <!-- <li><a href="blog.html">Blog</a></li> -->
-          <!-- <li class="dropdown"><a href="#"><span>More Pages</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="destination-details.html">Destination Details</a></li>
-              <li><a href="tour-details.html">Tour Details</a></li>
-              <li><a href="booking.html">Booking</a></li>
-              <li><a href="testimonials">Testimonials</a></li>
-              <li><a href="faq.html">Frequently Asked Questions</a></li>
-              <li><a href="blog-details.html">Blog Details</a></li>
-              <li><a href="terms.html">Terms</a></li>
-              <li><a href="privacy.html">Privacy</a></li>
-              <li><a href="404.html">404</a></li>
-            </ul>
-          </li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li> -->
+          
           <li><a href="contact.html" class="active">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -141,7 +112,7 @@
               </div>
               <div class="info-content">
                 <h4>Email Address</h4>
-                <p>info@johnstepsafricanadventures.com</p>
+                <p>info@johnstepssafaris.com</p>
               </div>
             </div>
           </div>
@@ -174,7 +145,7 @@
             <div class="contact-form-wrapper">
               <h2 class="text-center mb-4">Get in Touch</h2>
 
-              <form action="forms/contact.php" method="post" class="php-email-form">
+              <form action="forms/contact.php" method="POST" class="php-email-form">
                 <div class="row g-3">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -328,6 +299,56 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  let forms = document.querySelectorAll('.php-email-form');
+
+  forms.forEach(function(e) {
+    e.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let thisForm = this;
+      let action = thisForm.getAttribute('action');
+      
+      if (!action) {
+        displayError(thisForm, 'The form action property is not set!');
+        return;
+      }
+
+      thisForm.querySelector('.loading').classList.add('d-block');
+      thisForm.querySelector('.error-message').classList.remove('d-block');
+      thisForm.querySelector('.sent-message').classList.remove('d-block');
+
+      let formData = new FormData(thisForm);
+
+      fetch(action, {
+        method: 'POST',
+        body: formData,
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+      })
+      .then(response => response.text())
+      .then(data => {
+        thisForm.querySelector('.loading').classList.remove('d-block');
+        if (data.trim() == 'OK') {
+          thisForm.querySelector('.sent-message').classList.add('d-block');
+          thisForm.reset(); 
+        } else {
+          throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
+        }
+      })
+      .catch((error) => {
+        displayError(thisForm, error);
+      });
+    });
+  });
+
+  function displayError(thisForm, error) {
+    thisForm.querySelector('.loading').classList.remove('d-block');
+    thisForm.querySelector('.error-message').innerHTML = error;
+    thisForm.querySelector('.error-message').classList.add('d-block');
+  }
+});
+  </script>
 
 </body>
 

@@ -1,39 +1,46 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+require 'src/Exception.php';
+require 'src/PHPMailer.php';
+require 'src/SMTP.php';
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Honeypot check
+    if (!empty($_POST['website'])) {
+        die("Spam detected.");
+    }
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['email'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject ="New Subscription: " . $_POST['email'];
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    // Log to CSV
+    $file = fopen("subscribers.csv", "a");
+    fputcsv($file, [$email, date('Y-m-d H:i:s')]);
+    fclose($file);
 
-  $contact->add_message( $_POST['email'], 'Email');
+    $mail = new PHPMailer(true);
 
-  echo $contact->send();
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'mail.johnstepssafaris.com'; 
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'newsletter@johnstepssafaris.com';
+        $mail->Password   = 'newsletter@2030';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        $mail->setFrom('newsletter@johnstepssafaris.com', 'Johnsteps Newsletter');
+        $mail->addAddress('info@johnstepssafaris.com'); 
+
+        $mail->isHTML(true);
+        $mail->Subject = "New Newsletter Subscriber";
+        $mail->Body    = "New subscriber: <b>$email</b> has been added to your CSV list.";
+
+        $mail->send();
+        echo "OK";
+    } catch (Exception $e) {
+        echo "Error: {$mail->ErrorInfo}";
+    }
+}
 ?>

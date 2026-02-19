@@ -75,64 +75,74 @@
             <div class="booking-form-wrapper" data-aos="fade-up" data-aos-delay="200">
               <div class="booking-form p-4 shadow-sm bg-white rounded">
                 <h3 class="form-title mb-4 text-center">Craft Your Dream African Getaway</h3>
-                <form action="" method="post">
-                  <div class="form-group mb-3">
-                    <label for="destination" class="form-label fw-bold">Destination</label>
-                    <select name="destination" id="destination" class="form-select" required="">
-                      <option value="">Choose your destination</option>
-                      <option value="kenya">Kenya</option>
-                      <option value="rwanda">Rwanda</option>
-                      <option value="uganda">Uganda</option>
-                      <option value="tanzania">Tanzania</option>
-                      <option value="burundi">Burundi</option>
-                      <option value="congo">DR Congo</option>
-                    </select>
-                  </div>
+               <form action="forms/tour-booking.php" method="POST" class="php-email-form">
+  <div style="display: none;">
+    <input type="text" name="website" tabindex="-1" autocomplete="off">
+  </div>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group mb-3">
-                        <label for="checkin" class="form-label fw-bold">Departure Date</label>
-                        <input type="date" name="checkin" id="checkin" class="form-control" required="">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group mb-3">
-                        <label for="checkout" class="form-label fw-bold">Return Date</label>
-                        <input type="date" name="checkout" id="checkout" class="form-control" required="">
-                      </div>
-                    </div>
-                  </div>
+  <div class="form-group mb-3">
+    <label for="destination" class="form-label fw-bold">Destination</label>
+    <select name="destination" id="destination" class="form-select" required="">
+      <option value="">Choose your destination</option>
+      <option value="kenya">Kenya</option>
+      <option value="rwanda">Rwanda</option>
+      <option value="uganda">Uganda</option>
+      <option value="tanzania">Tanzania</option>
+      <option value="burundi">Burundi</option>
+      <option value="congo">DR Congo</option>
+    </select>
+  </div>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group mb-3">
-                        <label for="adults" class="form-label fw-bold">Adults</label>
-                        <input type="number" name="adults" id="adults" class="form-control" min="1" value="1" placeholder="Enter number of adults" required="">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group mb-3">
-                        <label for="children" class="form-label fw-bold">Children</label>
-                        <input type="number" name="children" id="children" class="form-control" min="0" value="0" placeholder="Enter number of children">
-                      </div>
-                    </div>
-                  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="checkin" class="form-label fw-bold">Departure Date</label>
+        <input type="date" name="checkin" id="checkin" class="form-control" required="">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="checkout" class="form-label fw-bold">Return Date</label>
+        <input type="date" name="checkout" id="checkout" class="form-control" required="">
+      </div>
+    </div>
+  </div>
 
-                  <div class="form-group mb-4">
-                    <label for="tour-type" class="form-label fw-bold">Tour Type</label>
-                    <select name="tour_type" id="tour-type" class="form-select" required="">
-                      <option value="">Select tour type</option>
-                      <option value="adventure">Adventure</option>
-                      <option value="cultural">Cultural</option>
-                      <option value="relaxation">Relaxation</option>
-                      <option value="family">Family</option>
-                      <option value="luxury">Luxury</option>
-                    </select>
-                  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="adults" class="form-label fw-bold">Adults</label>
+        <input type="number" name="adults" id="adults" class="form-control" min="1" value="1" required="">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="children" class="form-label fw-bold">Children</label>
+        <input type="number" name="children" id="children" class="form-control" min="0" value="0">
+      </div>
+    </div>
+  </div>
 
-                  <button type="submit" class="btn btn-getstarted w-100 py-2">Let’s Go!</button>
-                </form>
+  <div class="form-group mb-4">
+    <label for="tour-type" class="form-label fw-bold">Tour Type</label>
+    <select name="tour_type" id="tour-type" class="form-select" required="">
+      <option value="">Select tour type</option>
+      <option value="adventure">Adventure</option>
+      <option value="cultural">Cultural</option>
+      <option value="relaxation">Relaxation</option>
+      <option value="family">Family</option>
+      <option value="luxury">Luxury</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <div class="loading">Loading</div>
+    <div class="error-message"></div>
+    <div class="sent-message">Booking request sent successfully!</div>
+  </div>
+
+  <button type="submit" class="btn btn-getstarted w-100 py-2">Let’s Go!</button>
+</form>
               </div>
             </div>
           </div>
@@ -225,6 +235,55 @@
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  let forms = document.querySelectorAll('.php-email-form');
 
+  forms.forEach(function(e) {
+    e.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let thisForm = this;
+      let action = thisForm.getAttribute('action');
+      
+      if (!action) {
+        displayError(thisForm, 'The form action property is not set!');
+        return;
+      }
+
+      thisForm.querySelector('.loading').classList.add('d-block');
+      thisForm.querySelector('.error-message').classList.remove('d-block');
+      thisForm.querySelector('.sent-message').classList.remove('d-block');
+
+      let formData = new FormData(thisForm);
+
+      fetch(action, {
+        method: 'POST',
+        body: formData,
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+      })
+      .then(response => response.text())
+      .then(data => {
+        thisForm.querySelector('.loading').classList.remove('d-block');
+        if (data.trim() == 'OK') {
+          thisForm.querySelector('.sent-message').classList.add('d-block');
+          thisForm.reset(); 
+        } else {
+          throw new Error(data ? data : 'Submission failed'); 
+        }
+      })
+      .catch((error) => {
+        displayError(thisForm, error);
+      });
+    });
+  });
+
+  function displayError(thisForm, error) {
+    thisForm.querySelector('.loading').classList.remove('d-block');
+    thisForm.querySelector('.error-message').innerHTML = error;
+    thisForm.querySelector('.error-message').classList.add('d-block');
+  }
+});
+</script>
 </body>
 </html>

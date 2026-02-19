@@ -8457,6 +8457,91 @@ section,
   transform: translateX(3px);
 }
 
+/* Form Message Styling */
+.php-email-form .loading {
+  display: none;
+  background: #fff;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 24px;
+}
+
+.php-email-form .loading:before {
+  content: "";
+  display: inline-block;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: 0 10px -6px 0;
+  border: 3px solid #d4a017; /* Golden Yellow */
+  border-top-color: #054a49; /* Deep Green */
+  animation: animate-loading 1s linear infinite;
+}
+
+.php-email-form .error-message {
+  display: none;
+  color: #fff;
+  background: #df1529;
+  text-align: left;
+  padding: 15px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.php-email-form .sent-message {
+  display: none;
+  color: #fff;
+  background: #054a49; /* Deep Green */
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+  border-bottom: 3px solid #d4a017; /* Golden Yellow */
+  margin-bottom: 24px;
+}
+
+.php-email-form .d-block {
+  display: block;
+}
+
+
+/* Newsletter and Form Status Messages */
+.php-email-form .loading {
+  display: none;
+  background: #fff;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 24px;
+}
+
+.php-email-form .error-message {
+  display: none;
+  color: #fff;
+  background: #df1529;
+  text-align: left;
+  padding: 15px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.php-email-form .sent-message {
+  display: none;
+  color: #fff;
+  background: #059652;
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+/* Show the messages when JS adds the d-block class */
+.php-email-form .d-block {
+  display: block !now;
+}
+
+@keyframes animate-loading {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 @keyframes float {
 
   0%,
