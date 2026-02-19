@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host       = 'mail.johnstepssafaris.com'; 
         $mail->SMTPAuth   = true;
         $mail->Username   = 'bookings@johnstepssafaris.com';
-        $mail->Password   = 'bookings@2030';
+        $mail->Password   = 'Bookings@2030';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 

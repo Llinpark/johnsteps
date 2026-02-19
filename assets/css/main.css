@@ -46,6 +46,38 @@
   --contrast-color: #ffffff;
 }
 
+
+/* :root { 
+  --background-color: #f7f3ed; 
+  --default-color: #3e3a35;    
+  --heading-color: #2d4739;    
+  --accent-color: #e67e22;     
+  --surface-color: #ffffff; 
+  --contrast-color: #ffffff; 
+}
+
+:root {
+  --nav-color: rgba(255, 255, 255, 0.85);
+  --nav-hover-color: #e67e22;
+  --nav-mobile-background-color: #ffffff;
+  --nav-dropdown-background-color: #ffffff;
+  --nav-dropdown-color: #2d4739;
+  --nav-dropdown-hover-color: #e67e22;
+}
+
+.light-background {
+  --background-color: #e9ece0; 
+  --surface-color: #ffffff;
+}
+
+.dark-background {
+  --background-color: #1b2621; 
+  --default-color: #ffffff;
+  --heading-color: #e67e22;
+  --surface-color: #2a3831;
+  --contrast-color: #ffffff;
+} */
+
 /* Smooth scroll */
 :root {
   scroll-behavior: smooth;
