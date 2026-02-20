@@ -14,10 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
-    // Log to CSV
-    $file = fopen("subscribers.csv", "a");
-    fputcsv($file, [$email, date('Y-m-d H:i:s')]);
-    fclose($file);
+    // Log to CSV with error checking
+    $file_path = "subscribers.csv";
+    $file = fopen($file_path, "a");
+    if ($file) {
+        fputcsv($file, [$email, date('Y-m-d H:i:s')]);
+        fclose($file);
+    }
 
     $mail = new PHPMailer(true);
 

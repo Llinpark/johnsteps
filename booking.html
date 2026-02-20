@@ -75,7 +75,7 @@
             <div class="booking-form-wrapper" data-aos="fade-up" data-aos-delay="200">
               <div class="booking-form p-4 shadow-sm bg-white rounded">
                 <h3 class="form-title mb-4 text-center">Craft Your Dream African Getaway</h3>
-               <form action="forms/tour-booking.php" method="POST" class="php-email-form">
+              <form action="forms/tour-booking.php" method="POST" class="php-email-form">
   <div style="display: none;">
     <input type="text" name="website" tabindex="-1" autocomplete="off">
   </div>
@@ -91,6 +91,36 @@
       <option value="burundi">Burundi</option>
       <option value="congo">DR Congo</option>
     </select>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="country" class="form-label fw-bold">Your Country</label>
+        <input type="text" name="country" id="country" class="form-control" placeholder="Enter your country" required="">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="fullname" class="form-label fw-bold">Full Name</label>
+        <input type="text" name="fullname" id="fullname" class="form-control" placeholder="Enter full name" required="">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="email" class="form-label fw-bold">Email Address</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="example@mail.com" required="">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="phone" class="form-label fw-bold">Phone Number</label>
+        <input type="tel" name="phone" id="phone" class="form-control" placeholder="+123 456 789" required="">
+      </div>
+    </div>
   </div>
 
   <div class="row">
@@ -136,7 +166,6 @@
   </div>
 
   <div class="mb-3">
-    <div class="loading">Loading</div>
     <div class="error-message"></div>
     <div class="sent-message">Booking request sent successfully!</div>
   </div>
@@ -161,7 +190,6 @@
             <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
             <form action="forms/newsletter.php" method="post" class="php-email-form">
               <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-              <div class="loading">Loading</div>
               <div class="error-message"></div>
               <div class="sent-message">Your subscription request has been sent. Thank you!</div>
             </form>
@@ -251,7 +279,6 @@
         return;
       }
 
-      thisForm.querySelector('.loading').classList.add('d-block');
       thisForm.querySelector('.error-message').classList.remove('d-block');
       thisForm.querySelector('.sent-message').classList.remove('d-block');
 
@@ -264,10 +291,14 @@
       })
       .then(response => response.text())
       .then(data => {
-        thisForm.querySelector('.loading').classList.remove('d-block');
         if (data.trim() == 'OK') {
-          thisForm.querySelector('.sent-message').classList.add('d-block');
+          let sentMsg = thisForm.querySelector('.sent-message');
+          sentMsg.classList.add('d-block');
           thisForm.reset(); 
+          
+          setTimeout(() => {
+            sentMsg.classList.remove('d-block');
+          }, 5000);
         } else {
           throw new Error(data ? data : 'Submission failed'); 
         }
@@ -279,7 +310,6 @@
   });
 
   function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
     thisForm.querySelector('.error-message').innerHTML = error;
     thisForm.querySelector('.error-message').classList.add('d-block');
   }

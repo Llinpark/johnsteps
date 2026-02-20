@@ -1007,11 +1007,6 @@ section,
   color: #333;
 }
 
-.travel-booking .booking-form-wrapper .booking-form .form-control:focus {
-  border-color: #1a; /* Safari Sunset Orange */
-  background-color: #fff;
-}
-
 .travel-booking .booking-form-wrapper .booking-form .btn-getstarted {
   background-color: #1a4731;
   border: none;
@@ -1500,6 +1495,7 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 20%);
   margin-bottom: 12px;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -8490,26 +8486,6 @@ section,
 }
 
 /* Form Message Styling */
-.php-email-form .loading {
-  display: none;
-  background: #fff;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-}
-
-.php-email-form .loading:before {
-  content: "";
-  display: inline-block;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  margin: 0 10px -6px 0;
-  border: 3px solid #d4a017; /* Golden Yellow */
-  border-top-color: #054a49; /* Deep Green */
-  animation: animate-loading 1s linear infinite;
-}
-
 .php-email-form .error-message {
   display: none;
   color: #fff;
@@ -8537,14 +8513,6 @@ section,
 
 
 /* Newsletter and Form Status Messages */
-.php-email-form .loading {
-  display: none;
-  background: #fff;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-}
-
 .php-email-form .error-message {
   display: none;
   color: #fff;
@@ -8567,7 +8535,19 @@ section,
 
 /* Show the messages when JS adds the d-block class */
 .php-email-form .d-block {
-  display: block !now;
+  display: block !important;
+}
+
+
+.newsletter-form .error-message, 
+.newsletter-form .sent-message {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.newsletter-form .d-block {
+  display: block !important;
 }
 
 @keyframes animate-loading {
@@ -8641,11 +8621,4 @@ section,
 /* Optional: if you want the flags to be slightly bigger */
 .navmenu .dropdown ul li a .fi {
   font-size: 1.1rem;
-}
-
-/*--------------------------------------------------------------
-# Starter Section Section
---------------------------------------------------------------*/
-.starter-section {
-  /* Add your styles here */
 }

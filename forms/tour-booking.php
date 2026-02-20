@@ -31,6 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Structure the booking details for the email body
         $mail->Body    = "<h3>New Safari Booking Request</h3>" .
+                         "<b>Full Name:</b> " . $_POST['fullname'] . "<br>" .
+                         "<b>Email:</b> " . $_POST['email'] . "<br>" .
+                         "<b>Phone:</b> " . $_POST['phone'] . "<br>" .
+                         "<b>Country:</b> " . $_POST['country'] . "<br>" .
                          "<b>Destination:</b> " . $_POST['destination'] . "<br>" .
                          "<b>Tour Type:</b> " . $_POST['tour_type'] . "<br>" .
                          "<b>Departure:</b> " . $_POST['checkin'] . "<br>" .

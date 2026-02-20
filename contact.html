@@ -46,7 +46,7 @@
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-       <img src="assets/img/logo.jpeg" alt="">
+       <img src="assets/img/logo.png" alt="">
         <!-- <h1 class="sitename">Johnsteps Safaris</h1> -->
       </a>
 
@@ -145,55 +145,54 @@
             <div class="contact-form-wrapper">
               <h2 class="text-center mb-4">Get in Touch</h2>
 
-              <form action="forms/contact.php" method="POST" class="php-email-form">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-person"></i>
-                        <input type="text" class="form-control" name="name" placeholder="First Name" required="">
-                      </div>
-                    </div>
-                  </div>
+            <form action="forms/contact.php" method="POST" class="php-email-form">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-with-icon">
+          <i class="bi bi-person"></i>
+          <input type="text" class="form-control" name="name" placeholder="Full Name" required="">
+        </div>
+      </div>
+    </div>
 
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-envelope"></i>
-                        <input type="email" class="form-control" name="email" placeholder="Email Address" required="">
-                      </div>
-                    </div>
-                  </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-with-icon">
+          <i class="bi bi-envelope"></i>
+          <input type="email" class="form-control" name="email" placeholder="Email Address" required="">
+        </div>
+      </div>
+    </div>
 
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-text-left"></i>
-                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                      </div>
-                    </div>
-                  </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="input-with-icon">
+          <i class="bi bi-text-left"></i>
+          <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+        </div>
+      </div>
+    </div>
 
-                  <div class="col-12">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-chat-dots message-icon"></i>
-                        <textarea class="form-control" name="message" placeholder="Write Message..." style="height: 180px" required=""></textarea>
-                      </div>
-                    </div>
-                  </div>
+    <div class="col-12">
+      <div class="form-group">
+        <div class="input-with-icon">
+          <i class="bi bi-chat-dots message-icon"></i>
+          <textarea class="form-control" name="message" placeholder="Write Message..." style="height: 180px" required=""></textarea>
+        </div>
+      </div>
+    </div>
 
-                  <div class="col-12">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                  </div>
+    <div class="col-12">
+      <div class="error-message"></div>
+      <div class="sent-message">Your message has been sent. Thank you!</div>
+    </div>
 
-                  <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-submit">SEND MESSAGE</button>
-                  </div>
-                </div>
-              </form>
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary btn-submit">SEND MESSAGE</button>
+    </div>
+  </div>
+</form>
             </div>
           </div>
         </div>
@@ -315,7 +314,6 @@
         return;
       }
 
-      thisForm.querySelector('.loading').classList.add('d-block');
       thisForm.querySelector('.error-message').classList.remove('d-block');
       thisForm.querySelector('.sent-message').classList.remove('d-block');
 
@@ -328,12 +326,16 @@
       })
       .then(response => response.text())
       .then(data => {
-        thisForm.querySelector('.loading').classList.remove('d-block');
         if (data.trim() == 'OK') {
-          thisForm.querySelector('.sent-message').classList.add('d-block');
+          let sentMsg = thisForm.querySelector('.sent-message');
+          sentMsg.classList.add('d-block');
           thisForm.reset(); 
+          
+          setTimeout(() => {
+            sentMsg.classList.remove('d-block');
+          }, 5000);
         } else {
-          throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
+          throw new Error(data ? data : 'Form submission failed'); 
         }
       })
       .catch((error) => {
@@ -343,12 +345,11 @@
   });
 
   function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
     thisForm.querySelector('.error-message').innerHTML = error;
     thisForm.querySelector('.error-message').classList.add('d-block');
   }
 });
-  </script>
+</script>
 
 </body>
 
