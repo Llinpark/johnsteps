@@ -434,11 +434,17 @@
             <h4>Join Our Newsletter</h4>
             <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
             <form action="forms/newsletter.php" method="post" class="php-email-form">
-              <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-            </form>
+                <div style="display: none;">
+                    <input type="text" name="website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="newsletter-form" id="newsletter-form-container">
+                    <input type="email" name="email" placeholder="Enter your email" required="">
+                    <input type="submit" value="Subscribe">
+              </div>
+
+           <div class="error-message"></div>
+            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+          </form>
           </div>
         </div>
       </div>

@@ -172,42 +172,44 @@
   });
 
   /**
-   * Newsletter Form Handling
-   */
-  document.querySelectorAll('.php-email-form').forEach(form => {
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
+ * Newsletter Form Handling
+ */
+document.querySelectorAll('.php-email-form').forEach(form => {
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-      let thisForm = this;
-      let action = thisForm.getAttribute('action');
-      
-      thisForm.querySelector('.loading').classList.add('d-block');
-      thisForm.querySelector('.error-message').classList.remove('d-block');
-      thisForm.querySelector('.sent-message').classList.remove('d-block');
+    let thisForm = this;
+    let action = thisForm.getAttribute('action');
+    
+    thisForm.querySelector('.error-message').classList.remove('d-block');
+    thisForm.querySelector('.sent-message').classList.remove('d-block');
 
-      let formData = new FormData(thisForm);
+    let formData = new FormData(thisForm);
 
-      fetch(action, {
-        method: 'POST',
-        body: formData,
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-      })
-      .then(response => response.text())
-      .then(data => {
-        thisForm.querySelector('.loading').classList.remove('d-block');
-        if (data.trim() == 'OK') {
-          thisForm.querySelector('.sent-message').classList.add('d-block');
-          thisForm.reset(); 
-        } else {
-          throw new Error(data ? data : 'Submission failed'); 
-        }
-      })
-      .catch((error) => {
-        thisForm.querySelector('.loading').classList.remove('d-block');
-        thisForm.querySelector('.error-message').innerHTML = error;
-        thisForm.querySelector('.error-message').classList.add('d-block');
-      });
+    fetch(action, {
+      method: 'POST',
+      body: formData,
+      headers: {'X-Requested-With': 'XMLHttpRequest'}
+    })
+    .then(response => response.text())
+    .then(data => {
+      if (data.trim() == 'OK') {
+        let sentMsg = thisForm.querySelector('.sent-message');
+        sentMsg.classList.add('d-block');
+        thisForm.reset(); 
+        
+        setTimeout(() => {
+          sentMsg.classList.remove('d-block');
+        }, 5000);
+      } else {
+        throw new Error(data ? data : 'Submission failed'); 
+      }
+    })
+    .catch((error) => {
+      thisForm.querySelector('.error-message').innerHTML = error;
+      thisForm.querySelector('.error-message').classList.add('d-block');
     });
   });
+});
 
 })();
